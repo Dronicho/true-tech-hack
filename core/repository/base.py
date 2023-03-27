@@ -227,3 +227,36 @@ class BaseRepository(Generic[ModelType]):
         :return: The query with the given join.
         """
         return getattr(self, "_join_" + join_)(query)
+
+
+class BaseMongoRepository:
+    """Base class for data repositories."""
+
+    def __init__(self, collection):
+        self.collection = collection
+
+    async def create(self, attributes: dict[str, Any] = None) -> dict:
+        """
+        Creates the model instance.
+
+        :param attributes: The attributes to create the model with.
+        :return: The created model instance.
+        """
+        if attributes is None:
+            attributes = {}
+        model = await self.collection.insert_one(attributes)
+        new_model = await self.collection.find_one({"_id": model.inserted_id})
+
+        return new_model
+
+    async def get_by_field(self, key: str, name: str) -> dict:
+        """
+        Creates the model instance.
+
+        :param attributes: The attributes to create the model with.
+        :return: The created model instance.
+        """
+
+        model = await self.collection.find_one({key: name}, {"_id": 0})
+
+        return model

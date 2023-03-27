@@ -4,6 +4,7 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from api import router
 from core.cache import Cache, CustomKeyMaker, RedisBackend
@@ -70,17 +71,19 @@ def init_cache() -> None:
 
 def create_app() -> FastAPI:
     app_ = FastAPI(
-        title="FastAPI Boilerplate",
-        description="FastAPI Boilerplate by @iam-abbas",
+        title="Обработка видео елки палки",
         version="1.0.0",
         docs_url=None if config.ENVIRONMENT == "production" else "/docs",
         redoc_url=None if config.ENVIRONMENT == "production" else "/redoc",
         dependencies=[Depends(Logging)],
         middleware=make_middleware(),
     )
+
     init_routers(app_=app_)
     init_listeners(app_=app_)
     init_cache()
+    
+    app_.mount("/static", StaticFiles(directory="static"), name="static")
     return app_
 
 

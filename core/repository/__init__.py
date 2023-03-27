@@ -1,3 +1,3 @@
-from .base import BaseRepository
+from .base import BaseRepository, BaseMongoRepository
 
-__all__ = ["BaseRepository"]
+__all__ = ["BaseRepository", "BaseMongoRepository"]

@@ -5,7 +5,7 @@ description = "FastAPI Boilerplate"
 authors = ["Abbas <me@abbasmj.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.10,<3.12"
 alembic = "^1.9.4"
 SQLAlchemy = "^2.0.4"
 PyJWT = "^2.6.0"
@@ -33,6 +33,16 @@ passlib = "^1.7.4"
 bcrypt = "^4.0.1"
 faker = "^17.0.0"
 pytest-asyncio = "^0.20.3"
+python-ffmpeg-video-streaming = "^0.1.15"
+ffmpeg = "^1.4"
+ffprobe = "^0.5"
+ffprobe-python = "^1.0.3"
+opencv-python = "^4.7.0.72"
+tqdm = "^4.65.0"
+scikit-image = "^0.20.0"
+pymongo = "^4.3.3"
+motor = "^3.1.1"
+nudenet = "^2.0.9"
 
 [tool.poetry.dev-dependencies]
 behave = "^1.2.6"
