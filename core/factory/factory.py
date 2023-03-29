@@ -4,12 +4,11 @@ from fastapi import Depends
 
 from app.controllers import (
     AuthController,
-    TaskController,
     UserController,
     VideoController,
 )
-from app.models import Task, User
-from app.repositories import TaskRepository, UserRepository, VideoRepository
+from app.models import User
+from app.repositories import UserRepository, VideoRepository
 from core.database import get_session, get_mongo_session
 
 
@@ -20,18 +19,12 @@ class Factory:
     """
 
     # Repositories
-    task_repository = partial(TaskRepository, Task)
     user_repository = partial(UserRepository, User)
     video_repository = VideoRepository
 
     def get_user_controller(self, db_session=Depends(get_session)):
         return UserController(
             user_repository=self.user_repository(db_session=db_session)
-        )
-
-    def get_task_controller(self, db_session=Depends(get_session)):
-        return TaskController(
-            task_repository=self.task_repository(db_session=db_session)
         )
 
     def get_auth_controller(self, db_session=Depends(get_session)):
