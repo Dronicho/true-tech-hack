@@ -18,7 +18,7 @@
 
 Обработанная информация хранится в mongoDB 
 
-Информация о пользователя хранится в PostgresQL
+Информация о пользователе хранится в PostgresQL
 
 
 ### Features
@@ -64,6 +64,26 @@ docker-compose up -d
 ```
 
 4. Добавить .env файл
+
+Пример
+```
+# Database
+POSTGRES_URL=postgresql+asyncpg://postgres:password123@127.0.0.1:5432/fastapi-db
+TEST_POSTGRES_URL=postgresql://postgres:password123@127.0.0.1:5431/db-test
+
+# Environment
+ENVIRONMENT=development
+DEBUG=1
+SHOW_SQL_ALCHEMY_QUERIES=0
+
+# Redis
+REDIS_URL=redis://localhost:6379/7
+
+# Celery
+CELERY_BROKER_URL=amqp://rabbit:password@localhost:5672
+CELERY_BACKEND_URL=redis://localhost:6379/0
+
+```
 
 5. Запустить миграции:
 
