@@ -20,14 +20,11 @@ client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 database = client.videos
 
 student_collection = database.get_collection("videos")
-# Load the video file
 def process(filename):
   cap = cv2.VideoCapture(f'{filename}.mp4')
 
-  # Set the threshold for detecting flashes
   brightness_threshold = 0.25
 
-  # Initialize variables for counting flashes and frames
   flash_count = 0
   frames_since_flash = 0
   fps = int(cap.get(cv2.CAP_PROP_FPS))
@@ -53,7 +50,6 @@ def process(filename):
           break
       pbar.update(1)
 
-      # Convert the frame to grayscale
       image = cv2.resize(frame, (224, 224))
       actions = []
       
@@ -75,19 +71,14 @@ def process(filename):
 
       
       
-      # Convert color space to LAB format and extract L channel
       L, A, B = cv2.split(cv2.cvtColor(image, cv2.COLOR_BGR2LAB))
-      # Normalize L channel by dividing all pixel values with maximum pixel value
       L = L/np.max(L)
-      # Return True if mean is greater than thresh else False
       std_dev = np.mean(L)
 
-      # Compute the mean brightness of the current frame and the previous frame
       if 'prev_std_dev' not in locals():
         prev_std_dev = std_dev
       diff = abs(std_dev - prev_std_dev) / max(prev_std_dev, std_dev)
 
-      # Check if the brightness difference is above the flash threshold
       if diff > brightness_threshold:
           if flash_start_time is None:
               flash_start_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
